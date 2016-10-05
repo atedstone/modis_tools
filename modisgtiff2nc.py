@@ -3,7 +3,7 @@
 # @Author: Andrew Tedstone
 # @Date:   2016-05-10 17:27:28
 # @Last Modified by:   Andrew Tedstone
-# @Last Modified time: 2016-06-20 12:40:03
+# @Last Modified time: 2016-10-05 17:36:42
 """
 Uses same parameter template file as stitch_warp_modis_l2.py
 
@@ -38,6 +38,11 @@ year_start = int(config.get('Params','year_start'))
 year_end = int(config.get('Params','year_end'))
 st = int(config.get('Params','day_start'))
 en = int(config.get('Params','day_end'))
+if calendar.isleap(year_start):
+	# If we don't do this and the script is asked to start on a leap year
+	# then it will fail if no file available for the specified st
+	st += 1
+	en += 1
 product = config.get('Params','product')
 version = config.get('Params','version')
 # Contains outputs of stitch_warp_modis_l2, and we'll save the netCDF there too

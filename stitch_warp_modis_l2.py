@@ -3,7 +3,7 @@
 # @Author: at15963
 # @Date:   2016-04-19 12:57:45
 # @Last Modified by:   Andrew Tedstone
-# @Last Modified time: 2016-06-17 17:27:55
+# @Last Modified time: 2016-10-13 11:41:58
 
 """
 
@@ -54,7 +54,7 @@ out_label = config.get('Params','out_label')
 grid_name = config.get('Params','grid_name')
 cleanup = config.get('Params','cleanup')
 grid = config.get('Params','grid')
-overwrite = bool(config.get('Params','overwrite'))
+overwrite = config.getboolean('Params','overwrite')
 
 
 # Move to output directory
@@ -62,7 +62,7 @@ os.chdir(output_path)
 
 # Set up logging
 log_out = output_path + out_label + '.txt'
-logging.basicConfig(filename=log_out,level=logging.INFO, format='%(message)s')
+logging.basicConfig(filename=log_out, level=logging.INFO, format='%(message)s')
 logging.info("\n\n" + dt.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p") +
         ": BEGINNING NEW PROCESSING BATCH")
 
@@ -72,16 +72,18 @@ for y in range(year_start, year_end):
 	print('**** ' + str(y))
 
 	# Iterate through season of daily gridded MODIS acquisitions
-	for d in range(st,en):
+	for d in range(st,en+1):
 
 		# Pad julian day to three digits (MODIS filename format)
 		d =  str(d).zfill(3)	
 
 		for b in bands:
 
-			# Check if file already generated
+			# Generate name of mosaiced output file
 			mosaic_outfile = product + '.' + 'A' + str(y) + d + '.' + version + '.' + b + '.' + out_label + '.tif'
-			if os.path.exists(mosaic_outfile) and overwrite==False:
+			
+			# Check if file already generated
+			if os.path.exists(mosaic_outfile) and overwrite == False:
 				logging.info(str(y) + d + ': ' + b + ': band TIF already exists, skipping')
 				continue
 

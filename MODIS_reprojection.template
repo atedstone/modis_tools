@@ -19,7 +19,7 @@ bands=sur_refl_b01_1,sur_refl_b04_1,QC_500m_1
 cleanup=False
 overwrite=False
 ;Grid to project output files on, in GDAL syntax (is passed to gdalwarp)
-grid=-t_srs "+proj=sterea +lat_0=70.5 +lon_0=-40 +k=1 +datum=WGS84 +units=m" -te -586678 -949047 -253932 70448
+grid=-t_srs "+proj=sterea +lat_0=70.5 +lon_0=-40 +k=1 +datum=WGS84 +units=m" -te -586678 -949047 -253932 70448 -tr 500 500
 ;Scale factors and missing values, comma separated, one for each band (provide None for bands that do not need these parameters set)
 scale_factor=0.0001,0.0001,None
 missing_value=-28672,-28672,787410671
